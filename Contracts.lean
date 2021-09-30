@@ -38,7 +38,7 @@ def Date := String
 
 -- def c6 := get (truncate t1 (one GBP))
 
-class Contract (T: Type) :=
+class Contract (T: Type) where
   zero    : T
   one     : Currency -> T
   give    : T -> T
@@ -50,22 +50,22 @@ class Contract (T: Type) :=
   get     : T -> T
   anytime : T -> T
   -- 
-  and_assoc:  (a b c : T) -> (and (and a b) c) = (and a (and b c))
-  and_empty_right:  (a : T) -> and a zero = a
-  and_empty_left:  (a : T) -> and zero a = a
+  and_assoc      : (a b c : T) -> (and (and a b) c) = (and a (and b c))
+  and_empty_right: (a : T) -> and a zero = a
+  and_empty_left : (a : T) -> and zero a = a
 
 class Monoid (A : Type) where
   append : A → A → A
-  empty : A
-  assoc : (a₁ a₂ a₃ : A) -> append (append a₁ a₂) a₃ = append a₁ (append a₂ a₃)
+  empty  : A
+  assoc  : (a₁ a₂ a₃ : A) -> append (append a₁ a₂) a₃ = append a₁ (append a₂ a₃)
   append_empty_right : (a : A) -> append a empty = a
-  append_empty_left : (a : A) -> append empty a = a
+  append_empty_left  : (a : A) -> append empty a = a
 
 instance contractAndIsMonoid (T: Type) [ct: Contract T]: Monoid T := {
   append       := ct.and,
   empty        := ct.zero,
   assoc        := ct.and_assoc,
-  append_empty_left := ct.and_empty_left
+  append_empty_left  := ct.and_empty_left
   append_empty_right := ct.and_empty_right
 } 
 
