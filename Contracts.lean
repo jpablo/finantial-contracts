@@ -1,15 +1,9 @@
 
-def main : IO Unit :=
-  IO.println "Hello, world!"
-
 
 inductive Currency
  | GBP
 
-
-open Currency
-
-
+-- for now
 def Date := String
 
 
@@ -19,19 +13,6 @@ structure Obs (T: Type) :=
 
 def konst {T} (t: T) : Obs T := 
   ⟨λ _ => t⟩ 
-
-
--- inductive Contract
---   | zero: Contract
---   | one: Currency -> Contract
---   | give: Contract -> Contract
---   | and: Contract -> Contract -> Contract
---   | or:  Contract -> Contract -> Contract
---   | truncate: Date -> Contract -> Contract
---   | then_: Contract -> Contract -> Contract
---   | scale: Obs Float -> Contract -> Contract
---   | get: Contract -> Contract
---   | anytime: Contract -> Contract
 
 
 class Contract (T: Type) where
@@ -78,6 +59,8 @@ def zcb {C} (t: Date) (x: Float) (k: Currency) [c: Contract C] : C :=
 -- example
 def t1: Date := "2022/01/01"
 def t2: Date := "2022/02/01"
+
+open Currency
 
 namespace examples
 
