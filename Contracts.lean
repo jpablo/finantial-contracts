@@ -79,25 +79,20 @@ def zcb {C} (t: Date) (x: Float) (k: Currency) [c: Contract C] : C :=
 def t1: Date := "2022/01/01"
 def t2: Date := "2022/02/01"
 
+namespace examples
+
+  variable {C: Type} [c: Contract C]
+
+  def c1: C := zcb t1 100 GBP
+  def c2: C := zcb t2 200 GBP
+  def c3 := c.and c1 c2
+  def c4 := c.and c1 (c.give c2)
+
+  -- Combinators
+
+  def andGive (x y: C) : C := c.and x (c.give y)
+
+  def c4' : C := andGive c1 c2
 
 
-def c1 {C} [c: Contract C]: C :=
-  zcb t1 100 GBP
-
-def c2 {C} [c: Contract C]: C := 
-  zcb t2 200 GBP
-
-def c3 {C} [c: Contract C] := 
-  c.and c1 c2
-
-def c4 {C} [c: Contract C] := 
-  c.and c1 (c.give c2)
-
--- Combinators
-
-def andGive {C} [c: Contract C] (x y: C) : C :=
-  c.and x (c.give y)
-
-def c4' {C} [c: Contract C]: C := andGive c1 c2
-
-
+end examples
