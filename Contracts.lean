@@ -85,8 +85,8 @@ namespace examples
 
   def c1: C := zcb t1 100 GBP
   def c2: C := zcb t2 200 GBP
-  def c3 := c.and c1 c2
-  def c4 := c.and c1 (c.give c2)
+  def c3    := c.and c1 c2
+  def c4    := c.and c1 (c.give c2)
 
   -- Combinators
 
