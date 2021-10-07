@@ -95,10 +95,9 @@ def c4 {C} [c: Contract C] :=
 
 -- Combinators
 
-def andGive {C} [c: Contract C] (c1 c2: C) : C :=
-  c.and c1 (c.give c2)
+def andGive {C} [c: Contract C] (x y: C) : C :=
+  c.and x (c.give y)
 
-def c4' {C} [c: Contract C] (c1 c2: C) := 
-  andGive c1 c2
+def c4' {C} [c: Contract C]: C := andGive c1 c2
 
 
