@@ -12,7 +12,31 @@ structure Obs (T: Type) :=
   
 
 def konst {T} (t: T) : Obs T := 
-  ⟨λ _ => t⟩ 
+  ⟨fun _ => t⟩ 
+
+
+
+def lift {A B} (f: A -> B) (o: Obs A) : Obs B :=
+  ⟨fun d => do f (<- o.value d)⟩
+
+
+#print lift
+
+
+-- def lift' : {A B : Type} → (A → B) → Obs A → Obs B :=
+-- fun {A B} f o => { 
+--   value :=
+--       fun d =>
+--         do 
+--           let a ← Obs.value o d 
+--           pure (f a) 
+-- }
+
+def lift2 {A B C} (f: A -> B -> C) (oa: Obs A) (ob: Obs B): Obs C :=
+  ⟨fun d => do f (<- oa.value d) (<- ob.value d)⟩
+
+#print lift2
+
 
 
 class Contract (T: Type) where
@@ -46,7 +70,15 @@ instance contractAndIsMonoid (T: Type) [ct: Contract T]: Monoid T := {
   append_empty_right := ct.and_empty_right
 } 
 
-#check contractAndIsMonoid
+-- #check contractAndIsMonoid
+
+class Group (G: Type) extends Monoid G where
+  negate : G -> G
+  -- equations
+
+
+
+instance obsGroup (T: Type) [g: Group T]: Group (Obs T) := sorry
 
 
 def scaleK {C} (x: Float) (t: C) [c: Contract C] : C :=
