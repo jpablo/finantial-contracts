@@ -8,7 +8,7 @@ def Date := String
 
 
 structure Obs (T: Type) :=
-  (value: Date -> IO T)
+  value: Date -> IO T
   
 
 def konst {T} (t: T) : Obs T := 
